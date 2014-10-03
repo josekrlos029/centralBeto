@@ -88,7 +88,6 @@ function cargarPedidios() {
 }
 
 function popAceptar(idDomicilio) {
-    alert(idDomicilio);
     $("#idAceptar").val(idDomicilio);
 }
 
@@ -157,7 +156,7 @@ function entregado() {
 
 function aceptar() {
     var idDomicilio = $("#idAceptar").val();
-    alert(idDomicilio);
+    
     var data = {
         idDomicilio: idDomicilio,
         estado: "a"
