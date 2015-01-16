@@ -58,7 +58,7 @@ and open the template in the editor.
             }
             
             function pop(idProducto){
-                alert(idProducto);
+                
                 $("#idProducto").val(idProducto);
             }
 
@@ -228,7 +228,7 @@ and open the template in the editor.
 
             }
             
-            function eliminarProducto() {
+            function modificarProducto() {
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
@@ -243,22 +243,25 @@ and open the template in the editor.
                     html: html
                 });
 
-                var url = "http://app.lasperrasdeltiobeto.com/restaurante/eliminarProducto";
+                var url = "http://app.lasperrasdeltiobeto.com/restaurante/modificarProducto";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: {
-                        idProducto: $("#idProducto").val()
+                        idProducto: $("#idProducto").val(),
+                        nombre: $("#nombreM").val(),
+                        descripcion: $("#descripcionM").val(),
+                        precio: $("#precioM").val()
                     }
                 }).done(function(msg) {
                     var json = eval("(" + msg + ")");
                     if (json.msj == "exito") {
-                        alert("Producto Eliminado Correctamente");
+                        alert("Producto Modificado Correctamente");
                         location.href  = "productos.html";
                     } else if (json.msj == "no") {
-                        alert("Error al eliminar Producto, intenta nuevamente");
+                        alert("Error al Modificar Producto, intenta nuevamente");
                     } else {
                         alert("Error en el servidor, contactate con la empresa TuDomicilio ");
                     }
@@ -324,8 +327,20 @@ and open the template in the editor.
                     <div style="padding:10px 20px;">
                         <a href="#" data-rel="back" id="close" onclick="" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                         <input type="hidden" value="" id="idProducto">
-                        <h4>Eliminar Producto</h4>
-                        <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="eliminarProducto()">Eliminar</button>
+                        <h4>Modificar Producto</h4>
+                        <div class="ui-field-contain">
+                        <label for="nombreM"><b>Nombre</b></label>
+                        <input type="text" name="nombreM" id="nombreM" value="">
+                        </div>
+                        <div class="ui-field-contain">
+                            <label for="descripcionM"><b>Descripcion</b></label>
+                            <input type="text" name="descripcionM" id="descripcionM" value="">
+                        </div>
+                        <div class="ui-field-contain">
+                            <label for="precioM"><b>Precio</b></label>
+                            <input type="number" name="precioM" id="precioM" value="">
+                        </div>
+                        <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="modificarProducto()">Modificar</button>
                     </div>
                 </div>
                 
