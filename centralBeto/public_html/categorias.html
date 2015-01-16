@@ -29,8 +29,7 @@ and open the template in the editor.
 
                 history.back();
             }
-
-
+            
             var mapa;
             function onDeviceReady() {
 
@@ -108,9 +107,6 @@ and open the template in the editor.
                     html: html
                 });
 
-                var nombre = $("#cat").text();
-                var idCategoria = $("#idCategoria").val();
-
                 var url = "http://app.lasperrasdeltiobeto.com/restaurante/guardarCategoria";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
@@ -122,12 +118,52 @@ and open the template in the editor.
                 }).done(function(msg) {
                     var json = eval("(" + msg + ")");
                     if (json.msj == "exito") {
-                        alert("Categoría Agregadz Correctamente");
-                        mostrarProductos(idCategoria, nombre);
+                        alert("Categoría Agregada Correctamente");
+                        cargarRestaurantes();
                     } else if (json.msj == "no") {
                         alert("Error al guardar Categoría, intenta nuevamente");
                     } else {
                         alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+                    }
+                    $.mobile.loading("hide");
+                });
+
+            }
+            
+            function modificar() {
+                var $this = $(this),
+                        theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+                        msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+                        textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+                        textonly = !!$this.jqmData("textonly");
+                html = $this.jqmData("html") || "";
+                $.mobile.loading("show", {
+                    text: msgText,
+                    textVisible: textVisible,
+                    theme: theme,
+                    textonly: textonly,
+                    html: html
+                });
+
+                var url = "http://app.lasperrasdeltiobeto.com/restaurante/modificarCategoria";
+                //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idCategoria: $("#idCategoria").val(),
+                        nombre: $("#nombreM").val()
+                    }
+                }).done(function(msg) {
+                    var json = eval("(" + msg + ")");
+                    if (json.msj == "exito") {
+                        alert("Categoría Modificada Correctamente");
+                        cargarRestaurantes();
+                        limpiarPop();
+                    } else if (json.msj == "no") {
+                        alert("Error al Modificar Categoría, intenta nuevamente");
+                    } else {
+                        alert("Error en el servidor, contactate con el Desarrollador ");
                     }
                     $.mobile.loading("hide");
                 });
@@ -141,8 +177,14 @@ and open the template in the editor.
 
             }
             function limpiarPop(){
-                 $("#btnHabilitar").hide();
-                 $("#btnInhabilitar").hide();
+                 $("#nombreM").val("");
+            }
+            
+            function llenarPop(idCategoria, nombre){
+                
+                $("#idCategoria").val(idCategoria);
+                $("#nombreM").val(nombre);
+                
             }
         </script>
     </head>
@@ -175,15 +217,16 @@ and open the template in the editor.
                 </div>
                 <div id="cont"></div>
                 <br>
-                <div id="prod" hidden></div>
                 <div data-role="popup" id="popup" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
                     <div style="padding:10px 20px;">
                         <a href="#" data-rel="back" id="close" onclick="" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                        <input type="hidden" value="" id="idProducto">
-                        <br>
-                        <br>
-                        <button hidden class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" id="btnHabilitar" onclick="habilitar()">Habilitar Producto</button>
-                        <button hidden class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" id="btnInhabilitar" onclick="inhabilitar()">Inhabilitar Producto</button>
+                        <input type="hidden" value="" id="idCategoria">
+                        <h4>Modificar Categoría</h4>
+                        <div class="ui-field-contain">
+                            <label for="nombreM"><b>Nombre</b></label>
+                            <input type="text" name="nombreM" id="nombreM" value="">
+                        </div>
+                        <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" id="btnHabilitar" onclick="modificar()">Modificar</button>
                     </div>
                 </div>
             </div>  
