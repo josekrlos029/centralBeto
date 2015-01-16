@@ -57,9 +57,12 @@ and open the template in the editor.
 
             }
             
-            function pop(idProducto){
+            function pop(idProducto,nombre,descripcion,precio){
                 
                 $("#idProducto").val(idProducto);
+                $("#nombreM").val(nombre);
+                $("#descripcionM").val(descripcion);
+                $("#precioM").val(precio);
             }
 
             function cargarRestaurantes() {
