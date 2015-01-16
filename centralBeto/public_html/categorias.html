@@ -50,10 +50,8 @@ and open the template in the editor.
                 $("#close").click(function() {
                    limpiarPop();
                 });
-                
                 limpiarPop();
                 cargarRestaurantes();
-
             }
 
             function cargarRestaurantes() {
@@ -87,9 +85,7 @@ and open the template in the editor.
                         $('#lista').listview('refresh');
                         $.mobile.loading("hide");
                     }, 1000);
-
                 });
-
             }
 
             function agregarProducto() {
@@ -181,7 +177,7 @@ and open the template in the editor.
             }
             
             function llenarPop(idCategoria, nombre){
-                
+                alert("fsdf");
                 $("#idCategoria").val(idCategoria);
                 $("#nombreM").val(nombre);
                 
@@ -230,7 +226,6 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>  
-
         </div>
     </body>
 </html>
